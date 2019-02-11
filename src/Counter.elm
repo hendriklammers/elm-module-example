@@ -8,24 +8,24 @@ type alias Model =
     Int
 
 
-initialModel : Model
-initialModel =
-    0
-
-
 type Msg
     = Increment
     | Decrement
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+initialModel : Model
+initialModel =
+    0
+
+
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
-            ( model + 1, Cmd.none )
+            model + 1
 
         Decrement ->
-            ( model - 1, Cmd.none )
+            model - 1
 
 
 view : Model -> Html Msg
