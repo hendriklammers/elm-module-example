@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Counter
+import Dice
 import Html exposing (Html, div, h1, text)
 import Timer
 
@@ -13,7 +14,7 @@ import Timer
 main : Program () Model Msg
 main =
     Browser.element
-        { init = always ( initialModel, Cmd.none )
+        { init = always ( init, Cmd.none )
         , subscriptions = subscriptions
         , update = update
         , view = view
@@ -28,14 +29,16 @@ type alias Model =
     { title : String
     , counter : Counter.Model
     , timer : Timer.Model
+    , dice : Dice.Model
     }
 
 
-initialModel : Model
-initialModel =
+init : Model
+init =
     { title = "Module example"
-    , counter = Counter.initialModel
-    , timer = Timer.initialModel
+    , counter = Counter.init
+    , timer = Timer.init
+    , dice = Dice.init
     }
 
 
@@ -46,6 +49,7 @@ initialModel =
 type Msg
     = CounterMsg Counter.Msg
     | TimerMsg Timer.Msg
+    | DiceMsg Dice.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -61,6 +65,13 @@ update msg model =
             , Cmd.none
             )
 
+        DiceMsg subMsg ->
+            let
+                ( dice, cmd ) =
+                    Dice.update subMsg model.dice
+            in
+            ( { model | dice = dice }, Cmd.map DiceMsg cmd )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -73,9 +84,10 @@ subscriptions model =
 
 
 view : Model -> Html Msg
-view { title, counter, timer } =
+view { title, counter, timer, dice } =
     div []
         [ h1 [] [ text title ]
         , Html.map CounterMsg (Counter.view counter)
         , Html.map TimerMsg (Timer.view timer)
+        , Html.map DiceMsg (Dice.view dice)
         ]

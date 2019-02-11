@@ -1,4 +1,4 @@
-module Counter exposing (Model, Msg, initialModel, update, view)
+module Counter exposing (Model, Msg, init, update, view)
 
 import Html exposing (Html, button, div, h3, span, text)
 import Html.Events exposing (onClick)
@@ -13,8 +13,8 @@ type Msg
     | Decrement
 
 
-initialModel : Model
-initialModel =
+init : Model
+init =
     0
 
 

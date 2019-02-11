@@ -1,7 +1,7 @@
 module Timer exposing
     ( Model
     , Msg
-    , initialModel
+    , init
     , subscriptions
     , update
     , view
@@ -24,8 +24,8 @@ type Msg
     | Reset
 
 
-initialModel : Model
-initialModel =
+init : Model
+init =
     { time = 0
     , paused = False
     }
